@@ -8,7 +8,12 @@ https://mta-sts.mhs.mn/.well-known/mta-sts.txt
 MTA-STS tells other mail servers to deliver email to mhs.mn only over a
 verified, encrypted (TLS) connection to Microsoft's mail servers.
 
-## Related DNS records (Datacom panel)
+## Related DNS records (Cloudflare)
+
+DNS for mhs.mn has been hosted on Cloudflare since 19 Oct 2026
+(dash.cloudflare.com → mhs.mn → DNS → Records). Datacom is still the registrar,
+but records edited in the Datacom panel no longer take effect.
+Keep these records DNS-only (grey cloud), never proxied.
 
 | Host | Type | Value |
 |---|---|---|
@@ -19,8 +24,9 @@ verified, encrypted (TLS) connection to Microsoft's mail servers.
 ## Changing the policy
 
 1. Edit `.well-known/mta-sts.txt` (LF or CRLF line endings are both fine, RFC 8461).
-2. Change the `id=` value in the `_mta-sts` TXT record (any new value, e.g. a date like `2026110201`),
-   otherwise senders keep using their cached copy.
+2. Wait until https://mta-sts.mhs.mn/.well-known/mta-sts.txt shows the new version.
+3. Then change the `id=` value in the `_mta-sts` TXT record in Cloudflare (any new value,
+   e.g. a date like `2026110201`), otherwise senders keep using their cached copy.
 
 Modes: `testing` (report only, never blocks mail) → `enforce` (block delivery over
 insecure connections). Switch to `enforce` only after TLS-RPT reports show no failures.
